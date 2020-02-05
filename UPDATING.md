@@ -1005,7 +1005,7 @@ If you have a specific task that still requires Python 2 then you can use the Py
 * the discovery-based api (`googleapiclient.discovery`) used in `GoogleCloudStorageHook` is now replaced by the recommended client based api (`google-cloud-storage`). To know the difference between both the libraries, read https://cloud.google.com/apis/docs/client-libraries-explained. PR: [#5054](https://github.com/apache/airflow/pull/5054)
 * as a part of this replacement, the `multipart` & `num_retries` parameters for `GoogleCloudStorageHook.upload` method have been deprecated.
 
-  The client library uses multipart upload automatically if the object/blob size is more than 8 MB - [source code](https://github.com/googleapis/google-cloud-python/blob/11c543ce7dd1d804688163bc7895cf592feb445f/storage/google/cloud/storage/blob.py#L989-L997). The client also handles retries automatically
+  The client library uses multipart upload automatically if the object/blob size is more than 8 MB - [source code](https://github.com/googleapis/google-cloud-python/bloInternal bugc543ce7dd1d804688163bc7895cf592feb445f/storage/google/cloud/storage/blob.py#L989-L997). The client also handles retries automatically
 
 * the `generation` parameter is deprecated in `GoogleCloudStorageHook.delete` and `GoogleCloudStorageHook.insert_object_acl`.
 
@@ -1377,7 +1377,7 @@ config file.
 
 If you want to use LDAP auth backend without TLS then you will have to create a
 custom-auth backend based on
-https://github.com/apache/airflow/blob/1.10.0/airflow/contrib/auth/backends/ldap_auth.py
+https://github.com/apache/airflow/bloInternal bug.10.0/airflow/contrib/auth/backends/ldap_auth.py
 
 ## Airflow 1.10
 
