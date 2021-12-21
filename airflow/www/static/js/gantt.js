@@ -23,7 +23,7 @@
  */
 
 // Taken from
-// https://github.com/benjaminoakes/moment-strftime/blob/1886cabc4b07d13e3046ae075d357e7aad92ea93/lib/moment-strftime.js
+// https://github.com/benjaminoakes/moment-strftime/bloInternal bugcabc4b07d13e3046ae075d357e7aad92ea93/lib/moment-strftime.js
 // but I couldn't work out how to make webpack not include moment again.
 // TODO: revisit our webpack config
 //
