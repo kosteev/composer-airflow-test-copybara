@@ -1197,7 +1197,13 @@ def add_all_provider_packages() -> None:
             "ssh",
             "sqlite",
         ],
-        {},
+        {
+            # TODO: remove one day when google-ads SDK can be installed without problems with dependencies
+            # in our internal provider package we have restriction to use our internal google-ads package
+            # where we changed the dependencies for protobuf, proto-plus and google-api-core to be
+            # compatible with Airflow and Composer dependencies, needed to support google-ads v12 API
+            "google": "==2023.3.14+composer",
+        },
     )
 
 
