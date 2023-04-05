@@ -238,7 +238,7 @@ repos:
         types: [yaml]
         exclude: ^.*init_git_sync\.template\.yaml$|^.*airflow\.template\.yaml$|^chart/(?:templates|files)/.*\.yaml$|openapi/.*\.yaml$|^\.pre-commit-config\.yaml$|^airflow/_vendor/
   - repo: https://github.com/PyCQA/isort
-    rev: 5.10.1
+    rev: 5.11.5
     hooks:
       - id: isort
         name: Run isort to sort imports in Python files
@@ -283,11 +283,11 @@ repos:
           (?x)
           ^airflow/_vendor/
         args:
-         # If flynt detects too long text it ignores it. So we set a very large limit to make it easy
-         # to split the text by hand. Too long lines are detected by flake8 (below),
-         # so the user is informed to take action.
-         - --line-length
-         - '99999'
+          # If flynt detects too long text it ignores it. So we set a very large limit to make it easy
+          # to split the text by hand. Too long lines are detected by flake8 (below),
+          # so the user is informed to take action.
+          - --line-length
+          - '99999'
   - repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:
