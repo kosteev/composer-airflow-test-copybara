@@ -1202,7 +1202,7 @@ def add_all_provider_packages() -> None:
             # in our internal provider package we have restriction to use our internal google-ads package
             # where we changed the dependencies for protobuf, proto-plus and google-api-core to be
             # compatible with Airflow and Composer dependencies, needed to support google-ads v12 API
-            "google": "==2023.4.3+composer",
+            "google": "==2023.4.13+composer",
         },
     )
 
