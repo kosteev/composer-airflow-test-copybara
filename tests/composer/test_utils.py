@@ -12,10 +12,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import annotations
+
 import unittest
 from unittest import mock
 
-from airflow.composer.utils import get_composer_version, is_composer_v1, is_triggerer_enabled
+from parameterized import parameterized
+
+from airflow import settings
+from airflow.composer.utils import (
+    get_composer_version,
+    is_composer_v1,
+    is_serverless_composer,
+    is_triggerer_enabled,
+)
 
 
 class TestUtils(unittest.TestCase):
@@ -35,3 +45,27 @@ class TestUtils(unittest.TestCase):
 
     def test_is_triggerer_enabled_default(self):
         self.assertFalse(is_triggerer_enabled())
+
+    @parameterized.expand(
+        [
+            ("", False),
+            ("1.20.12", False),
+            ("2.0.0", False),
+            ("2.4.21", False),
+            ("2.5.0", True),
+            ("2.5.0-preview.0", True),
+            ("2.5.0-preview.1", True),
+            ("2.15.0", True),
+            ("3.0.0", True),
+            ("10.0.0", True),
+        ]
+    )
+    def test_is_serverless_composer(self, composer_version, expected_result):
+        with mock.patch.dict("os.environ", {"COMPOSER_VERSION": composer_version}):
+            self.assertEqual(is_serverless_composer(), expected_result)
+
+    @mock.patch("airflow.composer.utils.initialize", autospec=True)
+    def test_initialize(self, initialize_mock):
+        settings.initialize()
+
+        initialize_mock.assert_called_once()
