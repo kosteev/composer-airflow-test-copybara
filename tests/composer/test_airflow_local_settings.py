@@ -17,9 +17,13 @@ from __future__ import annotations
 import datetime
 import os
 import unittest
+from unittest import mock
+
+from kubernetes.client import models as k8s
+from parameterized import parameterized
 
 from airflow import settings
-from airflow.composer.airflow_local_settings import dag_policy
+from airflow.composer.airflow_local_settings import dag_policy, pod_mutation_hook
 from airflow.models import DAG
 from airflow.security.permissions import ACTION_CAN_EDIT, ACTION_CAN_READ
 from tests.test_utils.config import conf_vars
@@ -65,3 +69,28 @@ class TestAirflowLocalSettings(unittest.TestCase):
         }
         assert root_dag.access_control is None
         assert role_length_exceed_dag.access_control is None
+
+    @parameterized.expand(
+        [
+            (
+                "1.20.12",
+                k8s.V1Pod(metadata=k8s.V1ObjectMeta(namespace="default")),
+                k8s.V1Pod(metadata=k8s.V1ObjectMeta(namespace="default")),
+            ),
+            (
+                "2.4.21",
+                k8s.V1Pod(metadata=k8s.V1ObjectMeta(namespace="default")),
+                k8s.V1Pod(metadata=k8s.V1ObjectMeta(namespace="default")),
+            ),
+            (
+                "2.5.0-preview.0",
+                k8s.V1Pod(metadata=k8s.V1ObjectMeta(namespace="default")),
+                k8s.V1Pod(metadata=k8s.V1ObjectMeta(namespace="composer-user-workloads")),
+            ),
+        ]
+    )
+    def test_pod_mutation_hook(self, composer_version, pod, expected_mutated_pod):
+        with mock.patch.dict("os.environ", {"COMPOSER_VERSION": composer_version}):
+            pod_mutation_hook(pod)
+
+        assert pod == expected_mutated_pod

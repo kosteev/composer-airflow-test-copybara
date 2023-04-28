@@ -12,7 +12,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Airflow local settings for scheduler."""
+"""Airflow local settings."""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from airflow.composer.utils import is_serverless_composer
+
+if TYPE_CHECKING:
+    from kubernetes.client import models as k8s
+
+USER_WORKLOADS_NAMESPACE = "composer-user-workloads"
 
 
 def dag_policy(dag):
@@ -23,3 +33,8 @@ def dag_policy(dag):
 
     if conf.getboolean("webserver", "rbac_autoregister_per_folder_roles", fallback=False):
         apply_dag_rbac_per_folder_policy(dag)
+
+
+def pod_mutation_hook(pod: k8s.V1Pod):
+    if is_serverless_composer():
+        pod.metadata.namespace = USER_WORKLOADS_NAMESPACE
