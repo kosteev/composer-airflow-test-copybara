@@ -1,8 +1,0 @@
-name: "apache-airflow"
-third_party {
-  url {
-    type: ARCHIVE
-    value: "https://files.pythonhosted.org/packages/02/4c/44af9c88308fc07322c42a19a8b8a692a2ffae9f9100ab46339981621b1e/apache-airflow-1.10.1.tar.gz"
-  }
-  version: "1.10.1"
-}
